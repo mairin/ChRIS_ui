@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { IPluginItem } from "../../api/models/pluginInstance.model";
 import { Button, Grid, GridItem, Modal } from "@patternfly/react-core";
-import { ModelessOverlay, Modal as PF3Modal} from "patternfly-react";
+import { ModelessOverlay, Modal as PF3Modal, Button as PF3Button} from "patternfly-react";
 import { ShareAltIcon, InfrastructureIcon } from "@patternfly/react-icons";
 import TreeNodeModel, { INode } from "../../api/models/tree-node.model";
 import { getPluginInstanceTitle } from "../../api/models/pluginInstance.model";
@@ -13,11 +13,23 @@ interface INodeProps {
   descendants: IPluginItem[];
 }
 
-type State = {};
+type State = {
+  showOverlay: boolean
+};
 
-export class MockModelessManager extends React.Component<Props, State> {
-  constructor() {
-    super(this.props, this.state);
+type AllProps = {
+  children: any,
+  size: string,
+};
+
+type PropTypes = {
+  node: any,
+  string: string
+};
+
+export class MockModelessManager extends React.Component<AllProps, State> {
+  constructor(props: AllProps) {
+    super(props);
     this.state = { showOverlay: false};
   }
   close = () => {
@@ -59,24 +71,24 @@ export class MockModelessManager extends React.Component<Props, State> {
 
     return (
       <div>
-        <Button bsStyle="primary" bsSize="large" onClick={this.toggleOpen}>
+        <PF3Button bsStyle="primary" bsSize="large" onClick={this.toggleOpen}>
           {this.state.showOverlay ? 'Close Modeless Overlay' : 'Open Modeless Overlay'}
-        </Button>
+        </PF3Button>
 
         <ModelessOverlay show={this.state.showOverlay} bsSize={size !== 'default' ? size : null}>
-          <Modal.Header>
-            <Modal.CloseButton onClick={this.close} />
-            <Modal.Title>Modal Overlay Title</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>{children || defaultBody}</Modal.Body>
-          <Modal.Footer>
-            <Button bsStyle="default" className="btn-cancel" onClick={this.close}>
+          <PF3Modal.Header>
+            <PF3Modal.CloseButton onClick={this.close} />
+            <PF3Modal.Title>Modal Overlay Title</PF3Modal.Title>
+          </PF3Modal.Header>
+          <PF3Modal.Body>{children || defaultBody}</PF3Modal.Body>
+          <PF3Modal.Footer>
+            <PF3Button bsStyle="default" className="btn-cancel" onClick={this.close}>
               Cancel
-            </Button>
-            <Button bsStyle="primary" onClick={this.close}>
+            </PF3Button>
+            <PF3Button bsStyle="primary" onClick={this.close}>
               Save
-            </Button>
-          </Modal.Footer>
+            </PF3Button>
+          </PF3Modal.Footer>
         </ModelessOverlay>
       </div>
     );
